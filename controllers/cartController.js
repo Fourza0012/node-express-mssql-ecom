@@ -35,7 +35,7 @@ const addProductToCart = async (req, res, next) => {
 
         const oldProductCart = await cartData.getProductCartByUser(uid, req.body.pid)
         if (oldProductCart) {
-            const updateItem = await cartData.updateProductInCart(uid, req.body.pid, req.body.amount + oldProductCart.amount)
+            const updateItem = await cartData.updateProductInCart(uid, req.body.pid, req.body.amount)
             res.send(updateItem)
         } else {
             const createItem = await cartData.createProductIntoCart(uid, req.body.pid, req.body.amount)
