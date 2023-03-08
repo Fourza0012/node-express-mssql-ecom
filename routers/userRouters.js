@@ -10,9 +10,9 @@ const {getUserList, getUser, addUser, updateUser, deleteUser, loginUser} = userC
 router.post('/register', addUser)
 router.post('/login', loginUser)
 router.get('/users', auth, getUserList)
-router.get('/user/:id', getUser)
-router.put('/user/:id', updateUser)
-router.delete('/user/:id', deleteUser)
+router.get('/user/:id', auth, getUser)
+router.put('/user/:id', auth, updateUser)
+// router.delete('/user/:id', auth, deleteUser)
 
 
 module.exports = {
