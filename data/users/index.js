@@ -22,7 +22,20 @@ const getUserById = async (uid) => {
         const oneUser = await pool.request()
                                 .input('uid', sql.Int, uid)    
                                 .query(sqlQueries.userbyId)
-        return oneUser.recordset
+        return oneUser.recordset[0]
+    } catch (error) {
+        return error.message
+    }
+}
+
+const getUserByEmail = async (email) => {
+    try {
+        let pool = await sql.connect(config.sql)
+        const sqlQueries = await utils.loadSqlQueries('users')
+        const oneUser = await pool.request()
+                                .input('email', sql.NVarChar(sql.MAX), email)    
+                                .query(sqlQueries.userbyEmail)
+        return oneUser.recordset[0]
     } catch (error) {
         return error.message
     }
@@ -35,7 +48,7 @@ const createUser = async (userData) => {
         const insertUser = await pool.request()
                                     .input('name', sql.NVarChar(50), userData.name)
                                     .input('email', sql.NVarChar(sql.MAX), userData.email)
-                                    .input('password', sql.NVarChar(sql.MAX), '$2a$04$uTGCCPK9OQ5/t6jYObER5OmtIiSsW3w83x8quXrFzF87ldEPUlBj6')
+                                    .input('password', sql.NVarChar(sql.MAX), userData.password)
                                     .query(sqlQueries.createUser)
         return insertUser.recordset
     } catch (error) {
@@ -74,6 +87,7 @@ const deleteUser = async (uid) => {
 module.exports = {
     getUserList,
     getUserById,
+    getUserByEmail,
     createUser,
     updateUser,
     deleteUser
