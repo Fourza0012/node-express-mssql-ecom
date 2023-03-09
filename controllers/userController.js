@@ -89,7 +89,7 @@ const loginUser = async (req, res, next) => {
           return res.status(400).send('Incorrect Password!')
         } else {
             const token = jwt.sign(
-                { user_id: user.uid, email: req.body.email },
+                { uid: user.uid, name: user.name, email: req.body.email },
                 process.env.TOKEN_KEY,
                 { expiresIn: '1h' }
             )
@@ -101,11 +101,21 @@ const loginUser = async (req, res, next) => {
     }
 } 
 
+const checkLoginUser = async (req, res, next) => {
+    try {
+        const { uid, name, email } = req.user
+        res.send({ uid, name, email })
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+}
+
 module.exports = {
     getUserList,
     getUser,
     addUser,
     updateUser,
     deleteUser,
-    loginUser
+    loginUser,
+    checkLoginUser
 }

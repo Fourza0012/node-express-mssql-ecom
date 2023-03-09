@@ -32,6 +32,9 @@ const addProductToCart = async (req, res, next) => {
         if (errorData.status) {
            return res.status(400).send(errorData.message)
         }
+        if (req.user.uid !== parseInt(uid)) {
+            return res.status(400).send('No Permission for add cart!')
+        }  
 
         const oldProductCart = await cartData.getProductCartByUser(uid, req.body.pid)
         if (oldProductCart) {
@@ -59,6 +62,9 @@ const deleteProductInCart = async (req, res, next) => {
         if (errorData.status) {
             return res.status(400).send(errorData.message)
          }
+         if (req.user.uid !== parseInt(uid)) {
+            return res.status(400).send('No Permission for delete cart!')
+        }  
 
          const oldProductCart = await cartData.getProductCartByUser(uid, req.body.pid)
          if (oldProductCart) {

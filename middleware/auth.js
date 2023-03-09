@@ -13,7 +13,7 @@ const verifyToken = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.TOKEN_KEY)
         req.user = decoded
     } catch {
-        return res.status(401).send('Invalid Token!')
+        return res.status(401).send('Token is expired or invalid token!')
     }
 
     return next()

@@ -7,9 +7,9 @@ const auth = require('../middleware/auth')
 
 const {getCartListByUser, addProductToCart, deleteProductInCart} = cartController
 
-router.post('/addcart/:id', addProductToCart)
+router.post('/addcart/:id', auth, addProductToCart)
 router.get('/carts/:id', getCartListByUser)
-router.delete('/cart/:id', deleteProductInCart)
+router.delete('/cart/:id', auth, deleteProductInCart)
 
 module.exports = {
     routes: router
